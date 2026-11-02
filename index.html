@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Anniversary❤️</title>
+    <title>Happy Anniversary</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,9 +20,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #ffe6eb;
+            background-color: #e6f2ff; /* เปลี่ยนพื้นหลังหลักเป็นโทนฟ้าพาสเทล */
             font-family: 'Kanit', sans-serif;
-            color: #4a0e17;
+            color: #0e334a;
             position: relative;
         }
 
@@ -44,7 +44,7 @@
             font-size: 24px;
             animation: floatUp linear forwards;
             opacity: 0.9;
-            filter: drop-shadow(0 2px 5px rgba(255, 105, 180, 0.4));
+            filter: drop-shadow(0 2px 5px rgba(105, 180, 255, 0.4));
         }
 
         @keyframes floatUp {
@@ -233,22 +233,21 @@
         canvas.height = size;
 
         const overlayImg = new Image();
-        overlayImg.src = 'photo.jpg';
+        // หากต้องการเปลี่ยนจากรูปภาพ photo.jpg เป็นสีพื้นหลังฟ้าพาสเทลล้วน หรือถ้ายังใช้ไฟล์รูป สามารถเปลี่ยนชื่อไฟล์ตรงนี้ได้ครับ
+        // แต่ในที่นี้เซ็ตให้วาดเป็นสีฟ้าพาสเทล #b8dfec แทนการโหลดรูป photo.jpg ครับ
+        
+        let isDrawing = false;
+        let completed = false;
 
         function resetCanvas() {
             ctx.globalCompositeOperation = 'source-over';
-            if (overlayImg.complete && overlayImg.naturalWidth !== 0) {
-                ctx.drawImage(overlayImg, 0, 0, size, size);
-            } else {
-                ctx.fillStyle = '#ffb7c5';
-                ctx.fillRect(0, 0, size, size);
-            }
+            // ใช้สีฟ้าพาสเทลเป็นฟิลเตอร์ปิดทับแทนการใช้รูป photo.jpg
+            ctx.fillStyle = '#b8dfec'; 
+            ctx.fillRect(0, 0, size, size);
+            
+            // หมายเหตุ: หากคุณยังมีไฟล์รูปภาพที่ชื่อ photo.jpg อยู่และต้องการใช้รูปนั้นเป็นพื้นหลังขูด 
+            // ให้เปลี่ยนกลับไปใช้โค้ดโหลดรูปภาพแบบเดิมได้ครับ แต่ถ้าอยากได้โทนสีฟ้าพาสเทลล้วน โค้ดนี้จะใช้สี #b8dfec แทนทันทีโดยไม่ต้องใช้ไฟล์รูป photo.jpg ครับ
         }
-
-        overlayImg.addEventListener('load', resetCanvas);
-
-        let isDrawing = false;
-        let completed = false;
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
@@ -299,12 +298,11 @@
                     // Page 4 Completed
                     triggerHeartBurst(35);
                     
-                    // Delay 5 seconds on Page 4 before moving to Page 5
                     setTimeout(() => {
                         showFinalPage();
                     }, 5000);
                 } else {
-                    // Pages 1-3 Completed: Switch smoothly to next photo
+                    // Pages 1-3 Completed
                     setTimeout(() => {
                         nextPhoto();
                     }, 1200);
