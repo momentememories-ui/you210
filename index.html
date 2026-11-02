@@ -20,9 +20,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #ffe6eb;
+            background-color: #e6f2ff; /* โทนฟ้าพาสเทล */
             font-family: 'Kanit', sans-serif;
-            color: #4a0e17;
+            color: #0e334a;
             position: relative;
         }
 
@@ -44,7 +44,7 @@
             font-size: 24px;
             animation: floatUp linear forwards;
             opacity: 0.9;
-            filter: drop-shadow(0 2px 5px rgba(255, 105, 180, 0.4));
+            filter: drop-shadow(0 2px 5px rgba(105, 180, 255, 0.4));
         }
 
         @keyframes floatUp {
@@ -68,7 +68,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('photo6.jpg');
+            background-image: url('photo6.png'); /* แก้ไขเป็น photo6.png เรียบร้อย */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -232,20 +232,11 @@
         canvas.width = size;
         canvas.height = size;
 
-        const overlayImg = new Image();
-        overlayImg.src = 'photo.jpg';
-
         function resetCanvas() {
             ctx.globalCompositeOperation = 'source-over';
-            if (overlayImg.complete && overlayImg.naturalWidth !== 0) {
-                ctx.drawImage(overlayImg, 0, 0, size, size);
-            } else {
-                ctx.fillStyle = '#ffb7c5';
-                ctx.fillRect(0, 0, size, size);
-            }
+            ctx.fillStyle = '#b8dfec'; // สีฟ้าพาสเทลสำหรับฟิลเตอร์ขูด
+            ctx.fillRect(0, 0, size, size);
         }
-
-        overlayImg.addEventListener('load', resetCanvas);
 
         let isDrawing = false;
         let completed = false;
@@ -299,12 +290,11 @@
                     // Page 4 Completed
                     triggerHeartBurst(35);
                     
-                    // Delay 5 seconds on Page 4 before moving to Page 5
                     setTimeout(() => {
                         showFinalPage();
                     }, 5000);
                 } else {
-                    // Pages 1-3 Completed: Switch smoothly to next photo
+                    // Pages 1-3 Completed
                     setTimeout(() => {
                         nextPhoto();
                     }, 1200);
