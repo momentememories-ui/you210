@@ -68,7 +68,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('photo6.png'); /* แก้ไขเป็น photo6.png เรียบร้อย */
+            background-image: url('photo6.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -232,11 +232,21 @@
         canvas.width = size;
         canvas.height = size;
 
+        // นำโค้ดโหลดรูป photo.jpg มาใช้เป็นชั้นสำหรับขูดกลับมาเหมือนเดิม
+        const overlayImg = new Image();
+        overlayImg.src = 'photo.jpg';
+
         function resetCanvas() {
             ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = '#b8dfec'; // สีฟ้าพาสเทลสำหรับฟิลเตอร์ขูด
-            ctx.fillRect(0, 0, size, size);
+            if (overlayImg.complete && overlayImg.naturalWidth !== 0) {
+                ctx.drawImage(overlayImg, 0, 0, size, size);
+            } else {
+                ctx.fillStyle = '#b8dfec'; // เผื่อกรณีรูปโหลดไม่ทัน จะใช้สีฟ้าพาสเทลสำรอง
+                ctx.fillRect(0, 0, size, size);
+            }
         }
+
+        overlayImg.addEventListener('load', resetCanvas);
 
         let isDrawing = false;
         let completed = false;
